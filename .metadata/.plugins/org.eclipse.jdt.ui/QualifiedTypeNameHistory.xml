@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="processing.core.PApplet"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.UnfoldingMap"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.providers.Google"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.providers.Google.GoogleMapProvider"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.utils.MapUtils"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.geo.Location"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.data.Feature"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="parsing.ParseFeed"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.data.PointFeature"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.marker.SimplePointMarker"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.providers.Microsoft"/>
+    <fullyQualifiedTypeName name="javax.media.nativewindow.util.Rectangle"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.providers.StamenMapProvider"/>
+    <fullyQualifiedTypeName name="de.fhpotsdam.unfolding.providers.Yahoo"/>
+    <fullyQualifiedTypeName name="jogamp.graph.font.typecast.ot.table.CmapFormat"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="module4.EarthquakeMarker"/>
+    <fullyQualifiedTypeName name="com.jogamp.opengl.util.packrect.Rect"/>
+</qualifiedTypeNameHistroy>

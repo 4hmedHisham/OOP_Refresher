@@ -1,0 +1,22 @@
+package gui_training;
+
+import de.fhpotsdam.unfolding.*;
+import de.fhpotsdam.unfolding.utils.MapUtils;
+import processing.core.*;
+
+public class citymap extends PApplet{
+	private UnfoldingMap map;
+	public void setup()
+	{
+		background(GRAY);
+		map = new UnfoldingMap(this);
+        MapUtils.createDefaultEventDispatcher(this, map);
+		
+	}
+	public void draw()
+	{
+		
+		map.draw();
+	}
+
+}

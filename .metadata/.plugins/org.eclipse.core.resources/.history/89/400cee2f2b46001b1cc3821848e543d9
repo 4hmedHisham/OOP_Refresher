@@ -1,0 +1,16 @@
+package gui_training;
+
+import processing.core.*;
+
+public class citymap extends PApplet{
+	
+	public void setup()
+	{
+		
+	}
+	public void draw()
+	{
+		
+	}
+
+}

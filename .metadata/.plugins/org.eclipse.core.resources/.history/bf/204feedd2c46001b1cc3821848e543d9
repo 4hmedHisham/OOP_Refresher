@@ -1,0 +1,25 @@
+package gui_training;
+
+import de.fhpotsdam.unfolding.*;
+import de.fhpotsdam.unfolding.providers.Google;
+import de.fhpotsdam.unfolding.utils.MapUtils;
+import processing.core.*;
+
+public class citymap extends PApplet{
+	private UnfoldingMap map;
+	public void setup()
+	{
+		background(GRAY);
+		size(800,800);
+		map = new UnfoldingMap(this,500,100,400,400,new Google.GoogleMapProvider());
+		
+        MapUtils.createDefaultEventDispatcher(this,map);
+		
+	}
+	public void draw()
+	{
+		
+		map.draw();
+	}
+
+}

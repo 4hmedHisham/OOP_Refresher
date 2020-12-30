@@ -1,0 +1,13 @@
+import processing.core.*;
+
+
+
+public class gui extends PApplet
+{
+	public void setup() {
+		size(200,200);
+		String url="https://upload.wikimedia.org/wikipedia/commons/e/e4/Mauritius_beach.png";
+		webImg = loadImage(url,"png");
+	}
+	
+}

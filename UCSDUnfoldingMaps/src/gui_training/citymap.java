@@ -1,0 +1,44 @@
+package gui_training;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.fhpotsdam.unfolding.*;
+import de.fhpotsdam.unfolding.data.Feature;
+import de.fhpotsdam.unfolding.data.PointFeature;
+import de.fhpotsdam.unfolding.marker.*;
+import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.providers.Google;
+import de.fhpotsdam.unfolding.utils.MapUtils;
+import parsing.ParseFeed;
+import processing.core.*;
+
+public class citymap extends PApplet{
+	private UnfoldingMap map;
+	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
+	public void setup()
+	{
+		background(GRAY);
+		size(950, 600, OPENGL);
+
+		// Assume online
+		map = new UnfoldingMap(this, 150, 50, 700, 500, new Google.GoogleMapProvider());
+        MapUtils.createDefaultEventDispatcher(this,map);
+		Location loc= new Location(-38.14f,-73.07f);
+//		List<Marker> markers = new ArrayList<Marker>();
+//		SimplePointMarker val=new SimplePointMarker(loc);
+		Feature lump= new PointFeature(loc);
+		lump.addProperty("title","someocuntry");
+		lump.addProperty("magnitude","9.05");
+		
+		
+		List<PointFeature> bigEqs=ParseFeed.parseEarthquake(this, earthquakesURL);
+	}
+	public void draw()
+	{
+		
+		map.draw();
+		
+	}
+
+}
