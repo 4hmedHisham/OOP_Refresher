@@ -1,7 +1,11 @@
 package module5;
 
 import de.fhpotsdam.unfolding.data.PointFeature;
+import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.utils.GeoUtils;
+import de.fhpotsdam.unfolding.utils.ScreenPosition;
 import processing.core.PGraphics;
+import processing.core.PApplet;
 
 /** Implements a visual marker for earthquakes on an earthquake map
  * 
@@ -20,6 +24,8 @@ public abstract class EarthquakeMarker extends CommonMarker
 	// using the thresholds below, or a continuous function
 	// based on magnitude. 
 	protected float radius;
+	protected float threatradius=0;
+	
 	
 	
 	// constants for distance
@@ -39,9 +45,26 @@ public abstract class EarthquakeMarker extends CommonMarker
 
 	
 	// abstract method implemented in derived classes
-	public abstract void drawEarthquake(PGraphics pg, float x, float y);
+	public abstract void drawEarthquake(PGraphics pg, float x, float y,boolean isClicked);
 		
 	
+	private float radius_getter()
+	{
+		float radius = (float)threatCircle();
+		Location here =getLocation();
+		//ScreenPosition pos=innermap.getScreenPosition(here);
+		float distanceInPix=getDistance(here,radius);
+		return distanceInPix;
+		
+	}
+	private float getDistance(Location point,float kmLength)
+	{
+		Location tempLocation= GeoUtils.getDestinationLocation(point,0,kmLength);
+		ScreenPosition pos1=innermap.getScreenPosition(point);
+		ScreenPosition pos2=innermap.getScreenPosition(tempLocation);
+		return PApplet.dist(pos1.x,pos1.y,pos2.x,pos2.y);
+		
+	}
 	// constructor
 	public EarthquakeMarker (PointFeature feature) 
 	{
@@ -51,7 +74,6 @@ public abstract class EarthquakeMarker extends CommonMarker
 		float magnitude = Float.parseFloat(properties.get("magnitude").toString());
 		properties.put("radius", 2*magnitude );
 		setProperties(properties);
-		this.radius = 1.75f*getMagnitude();
 	}
 	
 
@@ -59,13 +81,22 @@ public abstract class EarthquakeMarker extends CommonMarker
 	@Override
 	public void drawMarker(PGraphics pg, float x, float y) {
 		// save previous styling
+		
 		pg.pushStyle();
 			
 		// determine color of marker from depth
 		colorDetermine(pg);
 		
 		// call abstract method implemented in child class to draw marker shape
-		drawEarthquake(pg, x, y);
+		if(!isClicked)
+		{
+			this.radius = 1.75f*getMagnitude();
+		}
+		else 
+		{
+			this.radius=radius_getter();
+		}
+		drawEarthquake(pg, x, y,isClicked);
 		
 		// IMPLEMENT: add X over marker if within past day		
 		String age = getStringProperty("age");
@@ -94,6 +125,8 @@ public abstract class EarthquakeMarker extends CommonMarker
 	public void showTitle(PGraphics pg, float x, float y)
 	{
 		// TODO: Implement this method
+		pg.text(getTitle(),x,y);
+		//System.out.print("EARTHQUAAAKE \n ");
 		
 	}
 

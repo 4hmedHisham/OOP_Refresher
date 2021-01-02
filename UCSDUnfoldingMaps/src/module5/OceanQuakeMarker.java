@@ -21,8 +21,18 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 
 	/** Draw the earthquake as a square */
 	@Override
-	public void drawEarthquake(PGraphics pg, float x, float y) {
-		pg.rect(x-radius, y-radius, 2*radius, 2*radius);
+	public void drawEarthquake(PGraphics pg, float x, float y,boolean isClicked) {
+		
+		if(isClicked)
+		{
+			pg.fill(255, 255, 0, 127);
+			pg.ellipse(x,y,2*radius,2*radius);
+		}
+		else
+		{
+			pg.rect(x-radius, y-radius, 2*radius, 2*radius);
+		}
+		
 	}
 	
 

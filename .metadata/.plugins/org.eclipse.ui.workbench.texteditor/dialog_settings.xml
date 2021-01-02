@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="Depth"/>
+		<item key="selection" value="threatCircle"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="depth"/>
-			<item value="print"/>
-			<item value="colorD"/>
-			<item value="color"/>
-			<item value="radius"/>
-			<item value="drawearth"/>
-			<item value="eartgquake"/>
-			<item value="island"/>
-			<item value="citycounter"/>
-			<item value="isincoun"/>
-			<item value="isLand"/>
-			<item value="earth"/>
-			<item value="isOnLand"/>
-			<item value="isonland"/>
-			<item value="ison"/>
+			<item value="threatCircle"/>
+			<item value="threat"/>
+			<item value="provider"/>
+			<item value="processing"/>
+			<item value="isClicked"/>
+			<item value="draw"/>
+			<item value="drawMarker"/>
+			<item value="map"/>
+			<item value="addKey"/>
+			<item value="showOnlyInRadius"/>
+			<item value="isInRadius"/>
+			<item value="lastClicked"/>
+			<item value="clicked"/>
+			<item value="showT"/>
+			<item value="show"/>
 		</list>
 		<list key="replacehistory">
-			<item value="countrycounter"/>
+			<item value="showOnlyCitiesInRadius"/>
+			<item value="showOnlyInRadius"/>
+			<item value="show"/>
 			<item value=""/>
+			<item value="countrycounter"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="8"/>
+		<item key="DIALOG_X_ORIGIN" value="190"/>
 		<item key="DIALOG_Y_ORIGIN" value="8"/>
 		<item key="DIALOG_WIDTH" value="284"/>
 		<item key="DIALOG_HEIGHT" value="393"/>

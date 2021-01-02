@@ -24,8 +24,17 @@ public class LandQuakeMarker extends EarthquakeMarker {
 
 	/** Draw the earthquake as an ellipse */
 	@Override
-	public void drawEarthquake(PGraphics pg, float x, float y) {
-		pg.ellipse(x, y, 2*radius, 2*radius);
+	public void drawEarthquake(PGraphics pg, float x, float y,boolean isClicked) {
+		if(isClicked)
+		{
+			pg.fill(255, 255, 0, 127);
+			pg.ellipse(x,y,2*radius,2*radius);
+		}
+		else
+		{
+			pg.ellipse(x, y, 2*radius, 2*radius);
+		}
+		
 		
 	}
 	

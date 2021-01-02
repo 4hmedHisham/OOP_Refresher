@@ -6,14 +6,20 @@ import java.util.List;
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
+import de.fhpotsdam.unfolding.data.MarkerFactory;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.marker.AbstractMarker;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.Microsoft;
+import de.fhpotsdam.unfolding.utils.GeoUtils;
 import de.fhpotsdam.unfolding.utils.MapUtils;
+import de.fhpotsdam.unfolding.utils.ScreenPosition;
+import module5.CityMarker;
 import parsing.ParseFeed;
 import processing.core.PApplet;
 
@@ -70,9 +76,10 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 650, 600,new Microsoft.AerialProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
+			CommonMarker.innermap=map;
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
@@ -135,8 +142,9 @@ public class EarthquakeCityMap extends PApplet {
 			lastSelected = null;
 		
 		}
-		selectMarkerIfHover(quakeMarkers);
 		selectMarkerIfHover(cityMarkers);
+		selectMarkerIfHover(quakeMarkers);
+		
 	}
 	
 	// If there is a marker under the cursor, and lastSelected is null 
@@ -146,6 +154,23 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+//		for (Marker marker : markers)
+//		{
+//			marker.setSelected(false);
+//		}
+		for (Marker marker : markers)
+		{
+			if(marker.isInside(map, mouseX, mouseY))
+			{
+				//do something
+				
+				marker.setSelected(true);
+				lastSelected=(CommonMarker) marker;
+				break;
+				
+				//?
+			}
+		}
 	}
 	
 	/** The event handler for mouse clicks
@@ -153,12 +178,114 @@ public class EarthquakeCityMap extends PApplet {
 	 * Or if a city is clicked, it will display all the earthquakes 
 	 * where the city is in the threat circle
 	 */
+	public boolean clickhandler(List<Marker> emarkers,List<Marker> cmarkers)
+	{
+		for (Marker quake : emarkers)
+		{
+			if(quake.isInside(map, mouseX, mouseY))
+			{
+				
+				double radius=((EarthquakeMarker)quake).threatCircle();
+//				float howbig = radius_getter(quake.getLocation(), (float)radius);
+				((EarthquakeMarker)quake).isClicked=true;
+//				((EarthquakeMarker)quake).threatradius=howbig;
+				
+				for(Marker nestedmarker : emarkers)
+				{
+					nestedmarker.setHidden(true);
+				}
+				quake.setHidden(false);
+				showOnlyCitiesInRadius(cmarkers, quake, radius);
+				return true;
+			}
+		}
+		for(Marker city : cmarkers)
+		{
+			if(city.isInside(map, mouseX, mouseY))
+			{
+				for(Marker nested_city:cmarkers)
+				{
+					nested_city.setHidden(true);
+				}
+				city.setHidden(false);
+				showOnlyquakesInRadius(emarkers, city);
+				return true;
+			}
+		}
+		for (Marker quake : emarkers)
+		{
+			quake.setHidden(false);
+			((EarthquakeMarker)quake).isClicked=false;
+		}
+		for (Marker city : cmarkers)
+		{
+			city.setHidden(false);
+		}
+		
+		return false;
+	}
+
+//	private float radius_getter(Location centerlocation,float radius)
+//	{
+//		ScreenPosition pos=map.getScreenPosition(centerlocation);
+//		float distanceInKm=getDistance(centerlocation,radius);
+//		return distanceInKm;
+//		
+//	}
+//	private float getDistance(Location point,float kmLength)
+//	{
+//		Location tempLocation= GeoUtils.getDestinationLocation(point,0,kmLength);
+//		ScreenPosition pos1=map.getScreenPosition(point);
+//		ScreenPosition pos2=map.getScreenPosition(tempLocation);
+//		return dist(pos1.x,pos1.y,pos2.x,pos2.y);
+//		
+//	}
+	private void showOnlyquakesInRadius(List<Marker> emarkers, Marker city) {
+		double distance;
+		double radius;
+		for(Marker quake :emarkers)
+		{
+			radius=((EarthquakeMarker)quake).threatCircle();
+			distance=city.getDistanceTo(quake.getLocation());
+			if(distance<radius)
+			{
+				quake.setHidden(false);
+			}
+			else
+			{
+				quake.setHidden(true);
+			}
+			
+		}
+	}
+
+
+	private void showOnlyCitiesInRadius(List<Marker> cmarkers, Marker quake, double radius) {
+		double distance;
+		for(Marker city :cmarkers)
+		{
+			distance=city.getDistanceTo(quake.getLocation());
+			if((float)distance<(float)radius)
+			{
+				city.setHidden(false);
+				ScreenPosition pos1=map.getScreenPosition(city.getLocation());
+				ScreenPosition pos2=map.getScreenPosition(quake.getLocation());
+				float diff=PApplet.dist(pos1.x,pos1.y,pos2.x,pos2.y);
+			}
+			else 
+			{
+				city.setHidden(true);
+			}
+		}
+	}
 	@Override
 	public void mouseClicked()
 	{
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		clickhandler(quakeMarkers,cityMarkers);
+		
 	}
 	
 	
